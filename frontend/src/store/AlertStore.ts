@@ -3,13 +3,13 @@ import { defineStore } from 'pinia';
 /** Config State */
 type AlertState = {
   message: string | null;
-  messageType: string | null;
+  messageType: "success" | "warning" | "error" | "info" | undefined;
 };
 
 export default defineStore('alert', {
   state: (): AlertState => ({
     message: null,
-    messageType: null
+    messageType: undefined
   }),
   actions: {
     success(message: string) {
@@ -22,7 +22,7 @@ export default defineStore('alert', {
     },
     clear() {
       this.message = null
-      this.messageType = null
+      this.messageType = undefined
     }
   }
 })

@@ -40,6 +40,52 @@ def get_applications():
         "applications": p
     }
 
+@router.get("/{application}/components")
+def get_components(application: str):
+    output_path = Path(settings.DATA_PATH)
+    if not output_path.exists():
+        raise HTTPException(
+            400, f"DATA_PATH '{settings.DATA_PATH}' does not exists")
+
+    appl_path = output_path / application
+    p = []
+    if appl_path.exists():
+        for folder in appl_path.iterdir():
+            if folder.is_dir():
+                p.append(folder.name)    
+    else:
+        raise HTTPException(
+            400, f"Application not found: {application}")
+
+    return {
+        "application": application,
+        "components": p
+    }
+
+
+@router.get("/{application}/{component}/versions")
+def get_components(application: str, component: str):
+    output_path = Path(settings.DATA_PATH)
+    if not output_path.exists():
+        raise HTTPException(
+            400, f"DATA_PATH '{settings.DATA_PATH}' does not exists")
+
+    path = output_path / application / component
+    p = []
+    if path.exists():
+        for folder in path.iterdir():
+            if folder.is_dir():
+                p.append(folder.name)    
+    else:
+        raise HTTPException(
+            400, f"Application/Component not found: {application}/{component}")
+
+    return {
+        "application": application,
+        "component": component,
+        "versions": p
+    }
+
 
 # Save the uploaded file to the correct sub folder
 async def save_file(appl, component, version, testtype, file):

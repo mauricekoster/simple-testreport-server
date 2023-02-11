@@ -13,11 +13,17 @@ import { useTheme } from 'vuetify/lib/framework.mjs';
 // Stores
 import { useGlobal, useConfig } from '@/store';
 
+import type MetaInterface from '@/interfaces/MetaInterface';
+import Meta from '@/Meta';
+
 // Components
 import AppBarMenuComponent from '@/components/AppBarMenuComponent.vue';
 import DrawerComponent from '@/components/DrawerComponent.vue';
+import Alert from '@/components/AlertComponent.vue';
 
 import logo from '@/assets/logo.svg';
+
+const meta: MetaInterface = Meta;
 
 /** Vuetify Theme */
 const theme = useTheme();
@@ -125,7 +131,14 @@ onMounted(() => {
     </v-snackbar>
 
     <v-footer app elevation="3">
-      <span class="mr-5">2023 &copy;</span>
+      <span class="mr-5">&copy; 2023</span>
+      <span class="mr-5">Version: {{ meta.version }}</span>
+      <span class="mr-5">Build:
+        <time
+          :datetime="meta.date"
+          v-text="new Date(meta.date).toLocaleString()"
+        />
+      </span>
     </v-footer>
   </v-app>
 
